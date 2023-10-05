@@ -1,0 +1,13 @@
+#!/usr/bin/awk -f
+
+$1 ~ /^@/ {
+  if ($1 == "@include") system("cat " $2);
+  else if ($1 == "@includemd") system("lowdown " $2);
+  else if ($1 == "@define") vars[$2] = $3;
+  else if ($1 == "@forget") vars[$2] = "";
+  else if ($1 == "@macro") print vars[$2];
+  else if ($1 == "@commd") system($2);
+  else print $0;
+}
+
+$1 !~ /^@/ && !withld
